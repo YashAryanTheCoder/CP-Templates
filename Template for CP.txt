@@ -1,0 +1,151 @@
+/*
+author: yash aryan
+date: 14-02-2021
+*/
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define modulus 1000000007
+#define pb push_back
+#define eb emplace_back
+typedef vector<vector<int> > matrix;
+vector<int> prime;
+#define size 1000000
+bitset<size+5> b;
+void sieve()
+{
+    b.set();
+    b.flip();
+    prime.push_back(2);
+    //initially set all as non prime
+    for(int i=3;i<size;i+=2)
+    {
+        b[i]=1;
+    }
+    for(int i=3;i<size;i+=2)
+    {
+        if(b[i]==1)
+        {
+            prime.push_back(i);
+            for(int j=i*i;j<size;j+=i)
+            {
+                b[j]=0;
+            }
+        }
+    }
+
+}
+int x,y,gcd;
+void extended_gcd(int a, int b)
+{
+    if(b==0)
+    {
+        x=1;
+        y=0;
+        gcd=a;
+        return;
+    }
+    extended_gcd(b,a%b);
+    int cx,cy;
+    cx=y;
+    cy=x-(a/b)*y;
+    x=cx;
+    y=cy;
+    return;
+}
+int mul_mod_inv(int a, int b=modulus)
+{
+    //returns multiplicative modulo inverse of a wrt b
+    extended_gcd(a,b);
+    return ((x+b)%b);
+}
+int GCD(int a, int b)
+{
+    extended_gcd(a,b);
+    return gcd;
+}
+int LCM(int a, int b)
+{
+    extended_gcd(a,b);
+    return (a*b)/gcd;
+}
+
+
+int totient(int n)
+{
+/* totient φ of a positive integer n is the number of positive integers less than or equal to n that are co-prime to n*/
+    int ans=n;
+    for(int i=2;i*i<=n;i++)
+    {
+        if(n%i==0)
+        {
+            ans*=(i-1);
+            ans/=i;
+            while(n%i==0)
+            {
+                n/=i;
+            }
+        }
+    }
+    if(n!=1)
+    {
+        ans*=(n-1);
+        ans/=n;
+    }
+    return ans;
+}
+
+int CRT(int *num, int *rem, int k)
+{
+    int pp[k],inv[k],prod=1,sum=0;
+    for(int i=0;i<k;i++)
+    {
+        prod*=num[i];
+    }
+    for(int i=0;i<k;i++)
+    {
+        pp[i]=prod/num[i];
+    }
+    for(int i=0;i<k;i++)
+    {
+        inv[i]=mul_mod_inv(pp[i],num[i]);
+    }
+    for(int i=0;i<k;i++)
+    {
+        sum=sum+(rem[i]*pp[i]*inv[i])%prod;
+    }
+    sum=sum%prod;
+    return sum;
+}
+
+int modular_expo(int a, int b, int c)
+{
+/*(a^b)mod c*/
+    int ans=1;
+    while(b>0)
+    {
+        if(b&1)
+        {
+            ans=((ans%c)*(a%c))%c;
+        }
+        a=((a%c)*(a%c))%c;
+        b=b>>1;
+    }
+    return ans;
+}
+void FIO()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+ios_base::sync_with_stdio(false);
+cin.tie(NULL);
+}
+int32_t main()
+{
+    //FIO();
+    //code starts here
+    
+    return 0;
+}
