@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+class Graph{
+    unordered_map<int,vector<int>> m;
+    unordered_map<int,int> distance;
+    public:
+    void addEdge(int x, int y)
+    {
+        m[x].push_back(y);
+        m[y].push_back(x);
+    }
+    void bfs(int src)
+    {
+        queue<int> q;
+        q.push(src);
+        for(auto p: m)
+        {
+            distance[p.first]=INT_MAX;
+        }
+        distance[src]=0;
+        while(!q.empty())
+        {
+            auto node=q.front();
+            q.pop();
+            for(int nbr: m[node])
+            {
+                if(distance[nbr]==INT_MAX)
+                {
+                distance[nbr]=distance[node]+1;
+                q.push(nbr);
+                }
+            }
+        }
+        for(auto p: m)
+        {
+            int node=p.first;
+            int d=distance[node];
+            cout<<"Node: "<<node<<" distance: "<<d<<endl;
+        }
+    }
+};
+int32_t main()
+{
+    Graph g;
+    g.addEdge(1,2);
+    g.addEdge(1,0);
+    g.addEdge(2,3);
+    g.addEdge(3,0);
+    g.addEdge(3,4);
+    g.addEdge(4,5);
+    g.bfs(1);
+    return 0;
+}

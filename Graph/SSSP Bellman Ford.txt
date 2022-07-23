@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+void bellman_ford(vector<vector<int>> edgeList, int src, int V)
+{
+    vector<int> distance(V+1,INT_MAX);
+    distance[src]=0;
+    for(int i=0;i<V-1;i++)
+    {
+        for(auto edge: edgeList)
+        {
+            int u=edge[0];
+            int v=edge[1];
+            int w=edge[2];
+            if(distance[u]!=INT_MAX and distance[v]>distance[u]+w)
+            {
+                distance[v]=distance[u]+w;
+            }
+        }
+    }
+        for(auto edge: edgeList)
+        {
+            int u=edge[0];
+            int v=edge[1];
+            int w=edge[2];
+            if(distance[u]!=INT_MAX and distance[v]>distance[u]+w)
+            {
+                cout<<"Negative weight cycle";
+                exit(0);
+            }
+        }
+        for(int i=1;i<=V;i++) // 1 based indexing of node
+        cout<<"Distance of "<<i<<" is "<<distance[i]<<endl;
+}
+int32_t main()
+{
+    vector<vector<int>> edgeList;
+    int v,e,src;
+    cin>>v>>e>>src;
+    for(int i=0;i<e;i++)
+    {
+        int x,y,w;
+        cin>>x>>y>>w;
+        edgeList.push_back({x,y,w});
+    }
+    bellman_ford(edgeList,src,v);
+    return 0;
+}

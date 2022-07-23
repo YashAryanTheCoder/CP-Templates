@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+class Graph{
+    map<int,vector<pair<int,int>>> m;
+    public:
+    void addEdge(int x, int y, int w)
+    {
+        m[x].push_back({y,w});
+        m[y].push_back({x,w});
+    }
+    void dijkstra(int src)
+    {
+        set<pair<int,int>> s;
+        s.insert({0,src});
+        //distance
+        map<int,int> distance;
+        for(auto p: m)
+        {
+            distance[p.first]=INT_MAX;
+        }
+        distance[src]=0;
+        while(!s.empty())
+        {
+            int nodeDist=s.begin()->first;
+            int node=s.begin()->second;
+            s.erase(s.begin());
+            for(auto nbr_pair: m[node])
+            {
+                int nbr=nbr_pair.first;
+                int weight=nbr_pair.second;
+                if(distance[nbr]>nodeDist+weight)
+                {
+                    auto f=s.find({distance[nbr],nbr});
+                    if(f!=s.end())
+                    {
+                        s.erase(f);
+                    }
+                    distance[nbr]=nodeDist+weight;
+                    s.insert({distance[nbr],nbr});
+                }
+            }
+        }
+        for(auto p: distance)
+        cout<<p.first<<" is located at distance of "<<p.second<<endl;
+    }
+};
+int32_t main()
+{
+    Graph g;
+    g.addEdge(1,2,1);
+    g.addEdge(1,3,4);
+    g.addEdge(2,3,1);
+    g.addEdge(3,4,2);
+    g.addEdge(1,4,7);
+    g.dijkstra(1);
+    return 0;
+}
