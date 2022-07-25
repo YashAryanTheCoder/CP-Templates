@@ -1,0 +1,30 @@
+Given: A starts first
+Finder Winnner: Player who picks the remaining coins at last wins
+		Also calles normal game
+		The person who starts first if he is able to pick a coin in range [a,b] to reduce N coins to (a+b)*k then he wins otherwise loses
+
+Keeper Loser: 	Player who picks the remaining coins at last loses
+		Also called misere game
+		The person who starts first if he is able to pick a coin in range [a,b] to reduce N coins to {(a+b)*k+ no} where no is in range [1,a] then he wins otherwise loses
+
+NIM Game: There are N number of piles each pile contains some coins. Pile 1 contains a1 coins,Pile 2 contains a2 coins,...Pile n contains an coins. A type of Finder Winner Game.
+Balanced State: If (a1^a2^a3^...^an)=0. In this case B wins. eg (1,1), (2,2)
+Unbalanced State: If (a1^a2^a3^...^an)!=0. In this case A wins. eg (1,2),(1,2,3)
+Pile size is called nimber/Grundy number.
+
+Mex: Minimum non negative number not present in the set. eg{1,2,3} mex is 0.
+
+Grundy number of state s G(s)=mex(G(s1),G(s2),G(s3),G(s4),...) where s1,s2,s3,s4 are states reachable from s.
+eg1.	1 pile of n coins, finder winner, can pick any number of coins. Find G(n)?
+Sol: 	G(0)=mex(Φ)=0, G(1)=mex(G(0))=mex(0)=1, G(2)=mex{G(0),G(1)}=mex(0,1)=2, therefore G(n)=n
+
+eg2.	Pile of 10 coins,a=1,b=3, finder winner.Find G(10)?
+sol:	G(0)=mex(Φ)=0, G(1)=mex(G(0))=mex(0)=1, G(2)=mex{G(0),G(1)}=mex(0,1)=2,G(3)=mex(G(2),G(1),G(0))=3, G(4)=mex(G(1),G(2),G(3))=0,
+	G(5)=mex(G(2),G(3),G(4))=1,G(6)=2=>G(7)=3,G(8)=0,G(9)=1,G(10)=2
+
+Sprague Grundy Theorem 
+1. Break the problem into subproblems
+2. Find Grundy number for subproblems say G1, G2, G3, etc
+3. Find XOR of Grundy numbers. If it is non zero then A wins else B wins.
+
+Nim is special case of sprague grundy where user can pick any number of coins.
