@@ -1,0 +1,32 @@
+// if we pass sorted array as b in lcs method we get lis
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+int dp[1000][1000];
+int lcs(int *a, int *b, int i, int j, int n)
+{
+    if(i==n or j==n)
+    return 0;
+    if(dp[i][j]!=-1)
+    return dp[i][j];
+    if(a[i]==b[j])
+    return dp[i][j]=1+lcs(a,b,i+1,j+1,n);
+    int op1=lcs(a,b,i+1,j,n);
+    int op2=lcs(a,b,i,j+1,n);
+    return dp[i][j]=max(op1,op2);
+}
+int32_t main()
+{
+    int n;
+    cin>>n;
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+        b[i]=a[i];
+    }
+    sort(b,b+n);
+    memset(dp,-1,sizeof(dp));
+    cout<<lcs(a,b,0,0,n);
+    return 0;
+}
